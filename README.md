@@ -1,5 +1,5 @@
 github-simple-backup
---------------------
+====================
 
 I needed a simple backup solution for github, that just goes ahead and clones
 all my public repositories (I don't have any other ones anyway). So here you
