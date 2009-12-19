@@ -7,7 +7,7 @@ go.
 
 Usage
 -----
-    python github-simple-backup.py github_username path/to/backup-dir
+    ./github-simple-backup.py github_username path/to/backup-dir
 
 License
 -------

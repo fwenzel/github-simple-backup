@@ -14,7 +14,7 @@ CLONE_URL = 'git://github.com/%(username)s/%(repo_name)s.git'
 
 
 def usage():
-    print "Usage: python github-simple-backup.py username /path/to/backup/\n"
+    print "Usage: ./github-simple-backup.py username /path/to/backup/\n"
     sys.exit()
 
 def clone_or_pull(username, backup_dir, repo_name):
