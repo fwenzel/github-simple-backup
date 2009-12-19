@@ -14,3 +14,8 @@ License
 github-simple-backup is licensed under the New BSD License. Check the file
 LICENSE for more information.
 
+Known Issues
+------------
+* The backup script does not handle the removal of repositories yet, since I
+  don't think I've ever removed one before. Patches are welcome though!
+
