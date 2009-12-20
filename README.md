@@ -5,6 +5,11 @@ I needed a simple backup solution for github, that just goes ahead and clones
 all my public repositories (I don't have any other ones anyway). So here you
 go.
 
+Requirements
+------------
+* Python 2.6
+* git
+
 Usage
 -----
     ./github-simple-backup.py github_username path/to/backup-dir
