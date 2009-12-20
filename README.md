@@ -14,6 +14,11 @@ License
 github-simple-backup is licensed under the New BSD License. Check the file
 LICENSE for more information.
 
+Contributors
+------------
+* Frédéric Wenzel (Original Author)
+* Jeff Balogh
+
 Known Issues
 ------------
 * The backup script does not handle the removal of repositories yet, since I
