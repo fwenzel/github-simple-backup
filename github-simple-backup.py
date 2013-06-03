@@ -1,24 +1,27 @@
 #!/usr/bin/env python
+import json
 import os
-from subprocess import call
+import re
 import sys
 import urllib
-from xml.etree.ElementTree import ElementTree
+from subprocess import call
 
 
 # API URL to grab repository list
-REPO_LIST_API = 'http://github.com/api/v2/xml/repos/show/%(username)s'
+REPO_LIST_API = 'https://api.github.com/users/%(username)s/repos?per_page=100'
 # github clone URL
 CLONE_URL = 'git://github.com/%(username)s/%(repo_name)s.git'
+# "Next" link regex in API header.
+NEXT_RE = re.compile(r'<([^>]+)>; rel="next"')
 
 
 def usage():
-    print "Usage: ./github-simple-backup.py username /path/to/backup/\n"
+    print "Usage: %s username /path/to/backup/" % sys.argv[0]
     sys.exit()
 
 def clone_or_pull(username, backup_dir, repo):
-    repo_name = repo.find('name').text
-    repo_desc = repo.find('description').text
+    repo_name = repo['name']
+    repo_desc = repo['description']
     print "Backing up %s..." % repo_name
     print "* %s" % repo_desc
 
@@ -37,10 +40,22 @@ def main():
     if not os.path.exists(backup_dir):
         os.makedirs(backup_dir)
 
-    tree = ElementTree()
-    tree.parse(urllib.urlopen(REPO_LIST_API % {'username': username}))
-    repos = tree.findall('repository')
-    for repo in sorted(repos, key=lambda x: x.find('name').text):
+    # Paginate through repos.
+    repos = []
+    repo_url = REPO_LIST_API % {'username': username}
+    while True:
+        req = urllib.urlopen(repo_url)
+        repos += json.load(req)
+
+        # Next pagination link? If so, follow it.
+        next_link = NEXT_RE.search(req.info().get('Link', ''))
+        if next_link:
+            repo_url = next_link.group(1)
+            print repo_url
+        else:
+            break
+
+    for repo in repos:
         clone_or_pull(username, backup_dir, repo)
 
 if __name__ == '__main__':
